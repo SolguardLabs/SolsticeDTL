@@ -1,0 +1,113 @@
+{
+  "name": "SolsticeDTL multi window",
+  "policy": {
+    "settlementFeeBps": 250
+  },
+  "assets": [
+    {
+      "id": "usd",
+      "symbol": "USD",
+      "decimals": 6,
+      "settlementPriority": 10
+    }
+  ],
+  "accounts": [
+    {
+      "id": "alice",
+      "role": "user"
+    },
+    {
+      "id": "bob",
+      "role": "user"
+    },
+    {
+      "id": "merchant",
+      "role": "merchant"
+    },
+    {
+      "id": "scheduler",
+      "role": "operator"
+    }
+  ],
+  "windows": [
+    {
+      "id": "dawn-2",
+      "asset": "usd",
+      "openEpoch": 1,
+      "closeEpoch": 2
+    },
+    {
+      "id": "noon-2",
+      "asset": "usd",
+      "openEpoch": 1,
+      "closeEpoch": 3
+    }
+  ],
+  "steps": [
+    {
+      "action": "deposit",
+      "accountId": "alice",
+      "windowId": "dawn-2",
+      "asset": "usd",
+      "amount": 1525
+    },
+    {
+      "action": "deposit",
+      "accountId": "bob",
+      "windowId": "noon-2",
+      "asset": "usd",
+      "amount": 810
+    },
+    {
+      "action": "queue_payment",
+      "id": "pay-4",
+      "windowId": "dawn-2",
+      "source": "alice",
+      "beneficiary": "merchant",
+      "asset": "usd",
+      "amount": 1000,
+      "dueEpoch": 3
+    },
+    {
+      "action": "queue_payment",
+      "id": "pay-5",
+      "windowId": "noon-2",
+      "source": "bob",
+      "beneficiary": "merchant",
+      "asset": "usd",
+      "amount": 400,
+      "dueEpoch": 4
+    },
+    {
+      "action": "advance",
+      "to": 2
+    },
+    {
+      "action": "close",
+      "windowId": "dawn-2"
+    },
+    {
+      "action": "settle",
+      "paymentId": "pay-4",
+      "amount": 300,
+      "operator": "scheduler"
+    },
+    {
+      "action": "advance",
+      "to": 3
+    },
+    {
+      "action": "close",
+      "windowId": "noon-2"
+    },
+    {
+      "action": "settle",
+      "paymentId": "pay-5",
+      "amount": 100,
+      "operator": "scheduler"
+    },
+    {
+      "action": "validate"
+    }
+  ]
+}

@@ -1,0 +1,19 @@
+{
+  "name": "solsticedtl",
+  "version": "0.1.0",
+  "private": true,
+  "description": "Go service for solar liquidity-window settlement with TypeScript integration tests.",
+  "type": "module",
+  "scripts": {
+    "build": "node scripts/build.mjs",
+    "test": "node scripts/build.mjs && node --test --experimental-strip-types \"tests/node/*.test.ts\"",
+    "ci": "node scripts/ci.mjs",
+    "format:check": "prettier --check ."
+  },
+  "devDependencies": {
+    "prettier": "^3.3.3"
+  },
+  "engines": {
+    "node": ">=24"
+  }
+}

@@ -1,0 +1,72 @@
+{
+  "name": "SolsticeDTL partial settlement",
+  "policy": {
+    "settlementFeeBps": 300
+  },
+  "assets": [
+    {
+      "id": "usd",
+      "symbol": "USD",
+      "decimals": 6,
+      "settlementPriority": 10
+    }
+  ],
+  "accounts": [
+    {
+      "id": "alice",
+      "role": "user"
+    },
+    {
+      "id": "merchant",
+      "role": "merchant"
+    },
+    {
+      "id": "scheduler",
+      "role": "operator"
+    }
+  ],
+  "windows": [
+    {
+      "id": "noon-1",
+      "asset": "usd",
+      "openEpoch": 1,
+      "closeEpoch": 2
+    }
+  ],
+  "steps": [
+    {
+      "action": "deposit",
+      "accountId": "alice",
+      "windowId": "noon-1",
+      "asset": "usd",
+      "amount": 1000
+    },
+    {
+      "action": "queue_payment",
+      "id": "pay-2",
+      "windowId": "noon-1",
+      "source": "alice",
+      "beneficiary": "merchant",
+      "asset": "usd",
+      "amount": 900,
+      "dueEpoch": 3
+    },
+    {
+      "action": "advance",
+      "to": 2
+    },
+    {
+      "action": "close",
+      "windowId": "noon-1"
+    },
+    {
+      "action": "settle",
+      "paymentId": "pay-2",
+      "amount": 200,
+      "operator": "scheduler"
+    },
+    {
+      "action": "validate"
+    }
+  ]
+}

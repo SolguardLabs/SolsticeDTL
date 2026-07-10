@@ -1,0 +1,8 @@
+{
+  "recommendations": [
+    "golang.go",
+    "ms-vscode.vscode-typescript-next",
+    "esbenp.prettier-vscode",
+    "github.vscode-github-actions"
+  ]
+}

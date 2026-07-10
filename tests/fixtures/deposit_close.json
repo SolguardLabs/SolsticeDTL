@@ -1,0 +1,67 @@
+{
+  "name": "SolsticeDTL deposit close",
+  "policy": {
+    "settlementFeeBps": 300
+  },
+  "assets": [
+    {
+      "id": "usd",
+      "symbol": "USD",
+      "decimals": 6,
+      "settlementPriority": 10
+    }
+  ],
+  "accounts": [
+    {
+      "id": "alice",
+      "role": "user"
+    },
+    {
+      "id": "merchant",
+      "role": "merchant"
+    },
+    {
+      "id": "scheduler",
+      "role": "operator"
+    }
+  ],
+  "windows": [
+    {
+      "id": "dawn-1",
+      "asset": "usd",
+      "openEpoch": 1,
+      "closeEpoch": 2,
+      "label": "dawn reserve"
+    }
+  ],
+  "steps": [
+    {
+      "action": "deposit",
+      "accountId": "alice",
+      "windowId": "dawn-1",
+      "asset": "usd",
+      "amount": 1000
+    },
+    {
+      "action": "queue_payment",
+      "id": "pay-1",
+      "windowId": "dawn-1",
+      "source": "alice",
+      "beneficiary": "merchant",
+      "asset": "usd",
+      "amount": 600,
+      "dueEpoch": 3
+    },
+    {
+      "action": "advance",
+      "to": 2
+    },
+    {
+      "action": "close",
+      "windowId": "dawn-1"
+    },
+    {
+      "action": "validate"
+    }
+  ]
+}
