@@ -1,8 +1,8 @@
 {
   "name": "solsticedtl",
-  "version": "0.1.0",
+  "version": "1.0.0",
   "private": true,
-  "description": "Go service for solar liquidity-window settlement with TypeScript integration tests.",
+  "description": "Servicio de liquidación por ventanas de liquidez y pagos diferidos.",
   "type": "module",
   "scripts": {
     "build": "node scripts/build.mjs",

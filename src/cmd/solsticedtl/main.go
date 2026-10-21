@@ -25,11 +25,42 @@ func run(args []string) error {
 		return runScenario(args[1:])
 	case "validate":
 		return validateScenario(args[1:])
+	case "audit":
+		return auditScenario(args[1:])
 	case "help", "-h", "--help":
 		return usage()
 	default:
 		return fmt.Errorf("unknown command %q", args[0])
 	}
+}
+
+func auditScenario(args []string) error {
+	if len(args) == 0 {
+		return fmt.Errorf("audit requires a scenario file")
+	}
+	result, err := scenario.RunFile(args[0], false)
+	if err != nil {
+		return err
+	}
+	report, err := result.Service.Audit()
+	if err != nil {
+		return err
+	}
+	if hasJSON(args[1:]) {
+		data, err := json.Marshal(report)
+		if err != nil {
+			return err
+		}
+		fmt.Println(string(data))
+		return nil
+	}
+	for _, window := range report.Windows {
+		fmt.Printf("window=%s asset=%s reserve=%s outstanding=%s utilization=%dbps\n", window.WindowID, window.Asset, window.Reserve, window.Outstanding, window.UtilizationBps)
+	}
+	for _, payment := range report.Schedule {
+		fmt.Printf("payment=%s due=%d tranche=%s fee=%s net=%s\n", payment.PaymentID, payment.DueEpoch, payment.TrancheLimit, payment.FeeEstimate, payment.NetEstimate)
+	}
+	return nil
 }
 
 func runScenario(args []string) error {
@@ -100,5 +131,6 @@ func usage() error {
 	fmt.Println("Usage:")
 	fmt.Println("  solsticedtl run <scenario.json> [--json] [--events]")
 	fmt.Println("  solsticedtl validate <scenario.json> [--json]")
+	fmt.Println("  solsticedtl audit <scenario.json> [--json]")
 	return nil
 }

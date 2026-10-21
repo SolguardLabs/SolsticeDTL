@@ -31,7 +31,7 @@ type Policy struct {
 
 func Default() Policy {
 	return Policy{
-		Name:                     "solstice-mainnet-sim",
+		Name:                     "solstice-settlement-v1",
 		Mode:                     ModeSolarNet,
 		SettlementFeeBps:         300,
 		MinimumSettlementFee:     amount.Must(1),
