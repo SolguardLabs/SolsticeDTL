@@ -54,6 +54,7 @@ type Report struct {
 	Epoch     int                      `json:"epoch"`
 	Windows   []WindowScore            `json:"windows"`
 	Accounts  []AccountScore           `json:"accounts"`
+	Schedule  []PaymentProjection      `json:"schedule"`
 	Findings  []Finding                `json:"findings"`
 	Summaries map[string]amount.Amount `json:"summaries"`
 }
@@ -64,6 +65,7 @@ func Build(state *domain.PoolState) Report {
 		Epoch:     state.Epoch,
 		Windows:   []WindowScore{},
 		Accounts:  []AccountScore{},
+		Schedule:  []PaymentProjection{},
 		Findings:  []Finding{},
 		Summaries: make(map[string]amount.Amount),
 	}
